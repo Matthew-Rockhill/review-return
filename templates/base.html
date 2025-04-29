@@ -1,0 +1,105 @@
+{# templates/base.html #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Review Return{% endblock %}</title>
+    {% load static %}
+    {% load tailwind_tags %}
+    {% tailwind_css %}
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <header class="bg-white shadow">
+        <nav class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="/" class="text-xl font-bold text-blue-600">Review Return</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                        <!-- Staff navigation - show both HQ and Portal sections -->
+                        <div class="flex items-center space-x-4">
+                            <div class="mr-4">
+                                <span class="text-sm text-gray-500">HQ:</span>
+                                <a href="{% url 'hq:home' %}" class="text-gray-700 hover:text-blue-600 ml-2">Dashboard</a>
+                                <a href="{% url 'hq:business_list' %}" class="text-gray-700 hover:text-blue-600 ml-2">Businesses</a>
+                                <a href="{% url 'hq:analytics' %}" class="text-gray-700 hover:text-blue-600 ml-2">Analytics</a>
+                            </div>
+                            
+                            <div>
+                                <span class="text-sm text-gray-500">Portal:</span>
+                                <a href="{% url 'portal:dashboard' %}" class="text-gray-700 hover:text-blue-600 ml-2">Dashboard</a>
+                                <a href="{% url 'portal:manage_surveys' %}" class="text-gray-700 hover:text-blue-600 ml-2">Surveys</a>
+                                <a href="{% url 'portal:manage_promotions' %}" class="text-gray-700 hover:text-blue-600 ml-2">Promotions</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <!-- Business user navigation - only Portal section -->
+                        <a href="{% url 'portal:dashboard' %}" class="text-gray-700 hover:text-blue-600">Dashboard</a>
+                        <a href="{% url 'portal:manage_surveys' %}" class="text-gray-700 hover:text-blue-600">Surveys</a>
+                        <a href="{% url 'portal:manage_promotions' %}" class="text-gray-700 hover:text-blue-600">Promotions</a>
+                        <a href="{% url 'portal:business_analytics' %}" class="text-gray-700 hover:text-blue-600">Analytics</a>
+                    {% endif %}
+
+                    
+                    <div class="relative inline-block text-left group">
+                        <button class="text-gray-700 hover:text-blue-600 flex items-center">
+                            {% if user.get_full_name %}
+                                {{ user.get_full_name }}
+                            {% else %}
+                                {{ user.email }}
+                            {% endif %}
+                            <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block z-10">
+                            <div class="py-1">
+                                <a href="{% url 'accounts:profile' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                <a href="{% url 'accounts:password_change' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Change Password</a>
+                                <a href="{% url 'accounts:logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{% url 'accounts:login' %}" class="text-gray-700 hover:text-blue-600">Login</a>
+                    <a href="{% url 'accounts:business_signup' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">Sign Up</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 py-6 flex-grow">
+        {% if messages %}
+            <div class="messages mb-6">
+                {% for message in messages %}
+                    <div class="p-4 mb-4 {% if message.tags == 'success' %}bg-green-100 text-green-700{% elif message.tags == 'error' %}bg-red-100 text-red-700{% elif message.tags == 'warning' %}bg-yellow-100 text-yellow-700{% else %}bg-blue-100 text-blue-700{% endif %} rounded-md">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-gray-800 text-white py-6 mt-auto">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p>&copy; {% now "Y" %} Review Return. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-300 hover:text-white">Terms</a>
+                    <a href="#" class="text-gray-300 hover:text-white">Privacy</a>
+                    <a href="#" class="text-gray-300 hover:text-white">Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

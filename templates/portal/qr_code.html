@@ -1,0 +1,77 @@
+{# templates/portal/qr_code.html #}
+{% extends 'base.html' %}
+
+{% block title %}Your QR Code | {{ business.name }} | Review Return{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto bg-white shadow rounded-lg p-6">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Your QR Code</h1>
+    
+    <div class="mb-6 text-center">
+        <p class="text-gray-600 mb-4">
+            Display this QR code in your business to collect customer feedback and enhance your Google reviews.
+        </p>
+        
+        {% if business.qr_code %}
+            <div class="p-6 border border-gray-200 rounded-lg mb-4">
+                <img src="{{ business.qr_code.url }}" alt="QR Code for {{ business.name }}" class="mx-auto max-w-full">
+            </div>
+            
+            <div class="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4">
+                <!-- Preview Survey Button -->
+                <a href="{% url 'survey:survey_landing' business_uuid=business.unique_identifier %}" target="_blank" 
+                class="inline-flex items-center justify-center bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md">
+                    <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                    </svg>
+                    Preview Survey
+                </a>
+                
+                <!-- Download QR Code Button -->
+                <a href="{{ business.qr_code.url }}" download 
+                class="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+                    <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    Download QR Code
+                </a>
+            </div>
+        {% else %}
+            <div class="p-6 bg-gray-50 border border-gray-200 rounded-lg">
+                <p class="text-gray-500">QR code not available. Please contact support.</p>
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="border-t border-gray-200 pt-6">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">Tips for using your QR code</h2>
+        <ul class="text-gray-600 space-y-2">
+            <li class="flex items-start">
+                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Place it near checkout areas or on tables where customers will see it
+            </li>
+            <li class="flex items-start">
+                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Add a brief instruction like "Scan for rewards" to encourage customers
+            </li>
+            <li class="flex items-start">
+                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Print in high quality to ensure it can be easily scanned
+            </li>
+            <li class="flex items-start">
+                <svg class="h-5 w-5 text-green-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Consider adding it to receipts or promotional materials
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

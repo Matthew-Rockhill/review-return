@@ -1,0 +1,160 @@
+{# templates/hq/analytics.html #}
+{% extends 'base.html' %}
+
+{% block title %}Analytics | HQ | Review Return{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow rounded-lg p-6">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Analytics Dashboard</h1>
+    
+    <!-- Summary Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-blue-50 p-6 rounded-lg shadow">
+            <h3 class="text-lg font-medium text-gray-800 mb-2">Businesses</h3>
+            <p class="text-3xl font-bold text-blue-600">{{ businesses_count }}</p>
+        </div>
+        <div class="bg-green-50 p-6 rounded-lg shadow">
+            <h3 class="text-lg font-medium text-gray-800 mb-2">Total Responses</h3>
+            <p class="text-3xl font-bold text-green-600">{{ responses_count }}</p>
+        </div>
+        <div class="bg-purple-50 p-6 rounded-lg shadow">
+            <h3 class="text-lg font-medium text-gray-800 mb-2">Google Reviews</h3>
+            <p class="text-3xl font-bold text-purple-600">{{ google_reviews_count }}</p>
+        </div>
+        <div class="bg-yellow-50 p-6 rounded-lg shadow">
+            <h3 class="text-lg font-medium text-gray-800 mb-2">Avg Rating</h3>
+            <p class="text-3xl font-bold text-yellow-600">{{ avg_rating }} / 5</p>
+        </div>
+    </div>
+    
+    <!-- Monthly Trends -->
+    <div class="mb-8">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Monthly Trends</h2>
+        <div class="bg-white overflow-x-auto border border-gray-200 rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Month</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Responses</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Avg Rating</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Growth</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for month_data in monthly_responses %}
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ month_data.month|date:"F Y" }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ month_data.count }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                {% if month_data.avg_rating %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {% if month_data.avg_rating >= 4 %}bg-green-100 text-green-800{% elif month_data.avg_rating >= 3 %}bg-yellow-100 text-yellow-800{% else %}bg-red-100 text-red-800{% endif %}">
+                                        {{ month_data.avg_rating|floatformat:1 }} / 5
+                                    </span>
+                                {% else %}
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">N/A</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {% if forloop.counter0 > 0 and monthly_responses|length > 1 %}
+                                    {% with prev=monthly_responses|slice:":forloop.counter0"|last %}
+                                        {% if prev.count > 0 and month_data.count > prev.count %}
+                                            <span class="text-green-600">↑</span>
+                                        {% elif prev.count > 0 and month_data.count < prev.count %}
+                                            <span class="text-red-600">↓</span>
+                                        {% else %}
+                                            <span class="text-gray-600">-</span>
+                                        {% endif %}
+                                    {% endwith %}
+                                {% else %}
+                                    <span class="text-gray-600">N/A</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">
+                                No monthly data available yet.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Top Businesses -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Top Businesses by Rating</h2>
+            {% if top_businesses_by_rating %}
+                <div class="bg-white overflow-x-auto border border-gray-200 rounded-lg">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Business</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Avg Rating</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Responses</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for business in top_businesses_by_rating %}
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ business.name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {% if business.avg_rating >= 4 %}bg-green-100 text-green-800{% elif business.avg_rating >= 3 %}bg-yellow-100 text-yellow-800{% else %}bg-red-100 text-red-800{% endif %}">
+                                            {{ business.avg_rating|floatformat:1 }} / 5
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ business.responses_count }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="bg-gray-50 p-6 text-center rounded-lg border border-gray-200">
+                    <p class="text-gray-500">No rated businesses yet.</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div>
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Top Businesses by Responses</h2>
+            {% if top_businesses_by_responses %}
+                <div class="bg-white overflow-x-auto border border-gray-200 rounded-lg">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Business</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Responses</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Avg Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for business in top_businesses_by_responses %}
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ business.name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ business.responses_count }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        {% if business.avg_rating %}
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {% if business.avg_rating >= 4 %}bg-green-100 text-green-800{% elif business.avg_rating >= 3 %}bg-yellow-100 text-yellow-800{% else %}bg-red-100 text-red-800{% endif %}">
+                                                {{ business.avg_rating|floatformat:1 }} / 5
+                                            </span>
+                                        {% else %}
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">N/A</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="bg-gray-50 p-6 text-center rounded-lg border border-gray-200">
+                    <p class="text-gray-500">No businesses with responses yet.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

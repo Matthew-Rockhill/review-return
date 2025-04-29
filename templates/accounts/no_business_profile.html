@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}No Business Profile | Review Return{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto bg-white shadow rounded-lg p-6 text-center">
+    <div class="mb-6">
+        <svg class="h-16 w-16 text-yellow-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+        </svg>
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">No Business Profile Found</h1>
+        <p class="text-gray-600">Your account is not associated with any business profile.</p>
+    </div>
+    
+    <div class="mb-6">
+        <p class="text-gray-600 mb-4">
+            This could be because:
+        </p>
+        <ul class="text-left text-gray-600 space-y-2 mb-6">
+            <li class="flex items-start">
+                <svg class="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                You signed up with a regular user account instead of a business account
+            </li>
+            <li class="flex items-start">
+                <svg class="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Your business profile was deleted
+            </li>
+            <li class="flex items-start">
+                <svg class="h-5 w-5 text-blue-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                You need to contact an administrator for access
+            </li>
+        </ul>
+    </div>
+    
+    <div class="flex flex-col space-y-4">
+        <a href="{% url 'accounts:business_signup' %}" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md">
+            Create a Business Account
+        </a>
+        <a href="{% url 'accounts:logout' %}" class="text-blue-600 hover:text-blue-800">
+            Logout
+        </a>
+    </div>
+</div>
+{% endblock %}

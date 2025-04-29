@@ -1,0 +1,80 @@
+{# templates/portal/surveys.html #}
+{% extends 'base.html' %}
+
+{% block title %}Surveys | {{ business.name }} | Review Return{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow rounded-lg p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Your Surveys</h1>
+        <a href="{% url 'portal:survey_create' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md flex items-center">
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            Create Survey
+        </a>
+    </div>
+    
+    {% if surveys %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for survey in surveys %}
+                <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                    <div class="p-5 flex justify-between">
+                        <div>
+                            <h2 class="text-lg font-semibold text-gray-800">{{ survey.title }}</h2>
+                            {% if survey.description %}
+                                <p class="mt-1 text-gray-600 line-clamp-2">{{ survey.description }}</p>
+                            {% endif %}
+                        </div>
+                        <div>
+                            {% if survey.is_active %}
+                                <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">Active</span>
+                            {% else %}
+                                <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">Inactive</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="px-5 py-3 bg-gray-50 border-t border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <div class="text-sm text-gray-500">
+                                <span>{{ survey.questions.count }} questions</span>
+                                <span class="mx-2">•</span>
+                                <span>{{ survey.responses.count }} responses</span>
+                            </div>
+                            <div class="flex space-x-2">
+                                <a href="{% url 'portal:survey_questions' survey_id=survey.id %}" class="text-blue-600 hover:text-blue-900 text-sm">
+                                    Edit Questions
+                                </a>
+                                <span class="text-gray-300">|</span>
+                                <a href="{% url 'portal:survey_update' pk=survey.id %}" class="text-indigo-600 hover:text-indigo-900 text-sm">
+                                    Edit Survey
+                                </a>
+                                <span class="text-gray-300">|</span>
+                                <a href="{% url 'portal:survey_delete' pk=survey.id %}" class="text-red-600 hover:text-red-900 text-sm">
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="bg-gray-50 p-6 text-center rounded-lg border border-gray-200">
+            <div class="mb-4">
+                <svg class="h-12 w-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                </svg>
+                <p class="text-gray-500">You haven't created any surveys yet.</p>
+            </div>
+            <a href="{% url 'portal:survey_create' %}" class="inline-flex items-center text-blue-600 hover:text-blue-900">
+                Create your first survey
+                <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
