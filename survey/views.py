@@ -8,28 +8,49 @@ from .models import CustomerResponse, Answer, PromotionIssued
 import uuid
 
 
-def survey_landing(request, business_uuid):
+def survey_landing(request, business_uuid, campaign_id=None):
     """Landing page when customer scans QR code"""
     business = get_object_or_404(Business, unique_identifier=business_uuid)
-    active_survey = Survey.objects.filter(business=business, is_active=True).first()
+    
+    # If campaign_id is provided, look for active surveys in that campaign
+    if campaign_id:
+        from portal.models import Campaign, Survey
+        campaign = get_object_or_404(Campaign, id=campaign_id, business=business)
+        active_survey = Survey.objects.filter(campaign=campaign, is_active=True).first()
+    else:
+        # No campaign_id, show any active survey from the business
+        campaign = None
+        from portal.models import Survey
+        active_survey = Survey.objects.filter(business=business, is_active=True).first()
     
     if not active_survey:
-        return render(request, 'survey/no_active_survey.html', {'business': business})
+        return render(request, 'survey/no_active_survey.html', {'business': business, 'campaign': campaign})
     
     context = {
         'business': business,
+        'campaign': campaign,
         'survey': active_survey,
     }
     return render(request, 'survey/survey_landing.html', context)
 
 
-def take_survey(request, business_uuid):
+def take_survey(request, business_uuid, campaign_id=None):
     """Take the survey page"""
     business = get_object_or_404(Business, unique_identifier=business_uuid)
-    survey = Survey.objects.filter(business=business, is_active=True).first()
+    
+    # If campaign_id is provided, look for active surveys in that campaign
+    if campaign_id:
+        from portal.models import Campaign, Survey
+        campaign = get_object_or_404(Campaign, id=campaign_id, business=business)
+        survey = Survey.objects.filter(campaign=campaign, is_active=True).first()
+    else:
+        # No campaign_id, show any active survey from the business
+        campaign = None
+        from portal.models import Survey
+        survey = Survey.objects.filter(business=business, is_active=True).first()
     
     if not survey:
-        return render(request, 'survey/no_active_survey.html', {'business': business})
+        return render(request, 'survey/no_active_survey.html', {'business': business, 'campaign': campaign})
     
     if request.method == 'POST':
         # Process survey submission
@@ -89,8 +110,14 @@ def take_survey(request, business_uuid):
             response.avg_rating = rating_sum / rating_count
             response.save()
         
-        # Determine next step based on rating
-        if response.avg_rating and response.avg_rating >= 4.0:  # High rating
+        # Determine next step based on rating and campaign threshold
+        review_threshold = 4.0  # Default threshold
+        
+        # If survey belongs to a campaign, use that campaign's threshold
+        if survey.campaign:
+            review_threshold = survey.campaign.review_threshold
+            
+        if response.avg_rating and response.avg_rating >= review_threshold:
             # Send to Google review page
             return redirect('survey:google_review_request', response_id=response.id)
         else:
@@ -99,6 +126,7 @@ def take_survey(request, business_uuid):
     
     context = {
         'business': business,
+        'campaign': campaign,
         'survey': survey,
         'questions': survey.questions.all(),
     }
@@ -129,16 +157,26 @@ def thank_you(request, response_id):
     response = get_object_or_404(CustomerResponse, id=response_id)
     business = response.survey.business
     
-    # Find eligible promotion based on rating
+    # Find eligible promotion based on rating and campaign
     promotion = None
     promotion_issued = None
     
     if response.avg_rating:
-        promotion = Promotion.objects.filter(
-            business=business,
-            is_active=True,
-            min_rating_required__lte=response.avg_rating
-        ).first()
+        # First try to find a promotion in the same campaign as the survey
+        if response.survey.campaign:
+            promotion = Promotion.objects.filter(
+                campaign=response.survey.campaign,
+                is_active=True,
+                min_rating_required__lte=response.avg_rating
+            ).first()
+        
+        # If no promotion found in campaign, try any promotion from the business
+        if not promotion:
+            promotion = Promotion.objects.filter(
+                business=business,
+                is_active=True,
+                min_rating_required__lte=response.avg_rating
+            ).first()
     
     # Create promotion redemption if not already created and a promotion exists
     if promotion and not response.promotions.exists():

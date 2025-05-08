@@ -1,0 +1,188 @@
+{# templates/accounts/onboarding.html #}
+{% extends 'base.html' %}
+
+{% block title %}Get Started | Review Return{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow rounded-lg p-6">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Welcome to Review Return!</h1>
+    
+    <div class="mb-8">
+        <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ business.onboarding_progress }}%"></div>
+        </div>
+        <div class="flex justify-between mt-2 text-sm text-gray-500">
+            <span>Start</span>
+            <span>Profile</span>
+            <span>Subscription</span>
+            <span>Campaign</span>
+            <span>Complete!</span>
+        </div>
+    </div>
+    
+    <div class="mb-8">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">Your Onboarding Progress</h2>
+        
+        <div class="space-y-4">
+            <!-- Step 1: Complete Profile -->
+            <div class="flex items-start">
+                {% if business.onboarding_status == 'incomplete' %}
+                    <div class="rounded-full bg-blue-600 text-white w-8 h-8 flex items-center justify-center mr-3">1</div>
+                {% else %}
+                    <div class="rounded-full bg-green-100 text-green-800 w-8 h-8 flex items-center justify-center mr-3">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                {% endif %}
+                <div>
+                    <h3 class="font-medium text-gray-800">Complete Your Profile</h3>
+                    <p class="text-gray-600 mt-1">Provide your business details and upload your logo.</p>
+                    
+                    {% if business.onboarding_status == 'incomplete' %}
+                        <a href="{% url 'accounts:profile' %}" class="inline-flex items-center text-blue-600 hover:text-blue-800 mt-2">
+                            Go to profile
+                            <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Step 2: Choose Subscription -->
+            <div class="flex items-start">
+                {% if business.onboarding_status == 'profile_completed' %}
+                    <div class="rounded-full bg-blue-600 text-white w-8 h-8 flex items-center justify-center mr-3">2</div>
+                {% elif business.onboarding_status == 'incomplete' %}
+                    <div class="rounded-full bg-gray-200 text-gray-500 w-8 h-8 flex items-center justify-center mr-3">2</div>
+                {% else %}
+                    <div class="rounded-full bg-green-100 text-green-800 w-8 h-8 flex items-center justify-center mr-3">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                {% endif %}
+                <div>
+                    <h3 class="font-medium text-gray-800">Choose a Subscription Plan</h3>
+                    <p class="text-gray-600 mt-1">Select the plan that best fits your business needs.</p>
+                    
+                    {% if business.onboarding_status == 'profile_completed' %}
+                        <a href="{% url 'accounts:subscription_plans' %}" class="inline-flex items-center text-blue-600 hover:text-blue-800 mt-2">
+                            View plans
+                            <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Step 3: Create Campaign -->
+            <div class="flex items-start">
+                {% if business.onboarding_status == 'subscription_completed' %}
+                    <div class="rounded-full bg-blue-600 text-white w-8 h-8 flex items-center justify-center mr-3">3</div>
+                {% elif business.onboarding_status == 'incomplete' or business.onboarding_status == 'profile_completed' %}
+                    <div class="rounded-full bg-gray-200 text-gray-500 w-8 h-8 flex items-center justify-center mr-3">3</div>
+                {% else %}
+                    <div class="rounded-full bg-green-100 text-green-800 w-8 h-8 flex items-center justify-center mr-3">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                {% endif %}
+                <div>
+                    <h3 class="font-medium text-gray-800">Create Your First Campaign</h3>
+                    <p class="text-gray-600 mt-1">Set up a campaign to organize your surveys and promotions.</p>
+                    
+                    {% if business.onboarding_status == 'subscription_completed' %}
+                        <a href="{% url 'portal:campaign_create' %}" class="inline-flex items-center text-blue-600 hover:text-blue-800 mt-2">
+                            Create campaign
+                            <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Step 4: Create Survey -->
+            <div class="flex items-start">
+                {% if business.onboarding_status == 'campaign_created' %}
+                    <div class="rounded-full bg-blue-600 text-white w-8 h-8 flex items-center justify-center mr-3">4</div>
+                {% elif business.onboarding_status == 'incomplete' or business.onboarding_status == 'profile_completed' or business.onboarding_status == 'subscription_completed' %}
+                    <div class="rounded-full bg-gray-200 text-gray-500 w-8 h-8 flex items-center justify-center mr-3">4</div>
+                {% else %}
+                <div class="rounded-full bg-green-100 text-green-800 w-8 h-8 flex items-center justify-center mr-3">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+            {% endif %}
+            <div>
+                <h3 class="font-medium text-gray-800">Add Your First Survey</h3>
+                <p class="text-gray-600 mt-1">Create a survey to collect customer feedback.</p>
+                
+                {% if business.onboarding_status == 'campaign_created' %}
+                    <a href="{% url 'portal:survey_create' %}" class="inline-flex items-center text-blue-600 hover:text-blue-800 mt-2">
+                        Create survey
+                        <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Step 5: Get Ready -->
+        <div class="flex items-start">
+            {% if business.onboarding_status == 'complete' %}
+                <div class="rounded-full bg-green-100 text-green-800 w-8 h-8 flex items-center justify-center mr-3">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+            {% else %}
+                <div class="rounded-full bg-gray-200 text-gray-500 w-8 h-8 flex items-center justify-center mr-3">5</div>
+            {% endif %}
+            <div>
+                <h3 class="font-medium text-gray-800">Launch Your Campaign</h3>
+                <p class="text-gray-600 mt-1">Generate a QR code and start collecting feedback!</p>
+                
+                {% if business.onboarding_status == 'complete' %}
+                    <a href="{% url 'portal:business_qr_code' %}" class="inline-flex items-center text-blue-600 hover:text-blue-800 mt-2">
+                        View QR Code
+                        <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-8">
+    <div class="flex justify-between items-center">
+        <h2 class="text-xl font-semibold text-gray-800">Next Step</h2>
+        {% if business.onboarding_next_step %}
+            <a href="{{ business.onboarding_next_step.url }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+                {{ business.onboarding_next_step.title }}
+            </a>
+        {% else %}
+            <a href="{% url 'portal:dashboard' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+                Go to Dashboard
+            </a>
+        {% endif %}
+    </div>
+    
+    {% if business.onboarding_status == 'complete' %}
+        <div class="mt-4 bg-green-50 border border-green-200 rounded-lg p-4">
+            <p class="text-green-800">
+                <span class="font-bold">Congratulations!</span> You've completed all the onboarding steps. You're now ready to collect customer feedback and grow your Google reviews.
+            </p>
+        </div>
+    {% endif %}
+</div>
+</div>
+{% endblock %}

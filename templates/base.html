@@ -31,6 +31,7 @@
                             <div>
                                 <span class="text-sm text-gray-500">Portal:</span>
                                 <a href="{% url 'portal:dashboard' %}" class="text-gray-700 hover:text-blue-600 ml-2">Dashboard</a>
+                                <a href="{% url 'portal:manage_campaigns' %}" class="text-gray-700 hover:text-blue-600">Campaigns</a>
                                 <a href="{% url 'portal:manage_surveys' %}" class="text-gray-700 hover:text-blue-600 ml-2">Surveys</a>
                                 <a href="{% url 'portal:manage_promotions' %}" class="text-gray-700 hover:text-blue-600 ml-2">Promotions</a>
                             </div>
@@ -38,6 +39,7 @@
                     {% else %}
                         <!-- Business user navigation - only Portal section -->
                         <a href="{% url 'portal:dashboard' %}" class="text-gray-700 hover:text-blue-600">Dashboard</a>
+                        <a href="{% url 'portal:manage_campaigns' %}" class="text-gray-700 hover:text-blue-600">Campaigns</a>
                         <a href="{% url 'portal:manage_surveys' %}" class="text-gray-700 hover:text-blue-600">Surveys</a>
                         <a href="{% url 'portal:manage_promotions' %}" class="text-gray-700 hover:text-blue-600">Promotions</a>
                         <a href="{% url 'portal:business_analytics' %}" class="text-gray-700 hover:text-blue-600">Analytics</a>

@@ -1,0 +1,80 @@
+{% load static %}
+{% load tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Review Return - Supercharge Your Customer Feedback{% endblock %}</title>
+    <!-- Load Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Load Tailwind CSS -->
+    {% tailwind_css %}
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-neutral text-secondary min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <header class="bg-white shadow">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="{% static 'images/logo.png' %}" alt="Review Return Logo" class="h-8">
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="#features" class="text-secondary hover:text-primary">Features</a>
+                <a href="#pricing" class="text-secondary hover:text-primary">Pricing</a>
+                <a href="#how-it-works" class="text-secondary hover:text-primary">How It Works</a>
+                <a href="#" class="text-secondary hover:text-primary">Support</a>
+                <a href="{% url 'accounts:login' %}" class="text-secondary hover:text-primary">Login</a>
+                <a href="{% url 'accounts:business_signup' %}" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700">Get Started Free</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary text-white py-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <img src="{% static 'images/logo.png' %}" alt="Review Return Logo" class="h-8 mb-4">
+                    <p class="text-sm">Supercharge Your Customer Feedback</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#features" class="hover:text-accent">Features</a></li>
+                        <li><a href="#pricing" class="hover:text-accent">Pricing</a></li>
+                        <li><a href="#how-it-works" class="hover:text-accent">How It Works</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-accent">Help Center</a></li>
+                        <li><a href="#" class="hover:text-accent">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-accent">About Us</a></li>
+                        <li><a href="#" class="hover:text-accent">Blog</a></li>
+                        <li><a href="#" class="hover:text-accent">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-accent">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-sm">
+                <p>© {% now "Y" %} Review Return. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

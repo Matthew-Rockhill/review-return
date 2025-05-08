@@ -23,4 +23,12 @@ urlpatterns = [
          name='password_reset_complete'),
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('no-business-profile/', views.NoBusinessProfileView.as_view(), name='no_business_profile'),
+    
+    # subscriptions
+    path('subscription/plans/', views.subscription_plans, name='subscription_plans'),
+    path('subscription/checkout/<str:plan>/<str:subscription_type>/', views.subscription_checkout, name='subscription_checkout'),
+    path('subscription/process/', views.process_payment, name='process_payment'),
+    
+    # onboarding
+    path('onboarding/', views.onboarding, name='onboarding'),
 ]

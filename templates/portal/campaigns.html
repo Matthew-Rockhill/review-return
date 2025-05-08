@@ -1,0 +1,107 @@
+{# templates/portal/campaigns.html #}
+{% extends 'base.html' %}
+
+{% block title %}Campaigns | {{ business.name }} | Review Return{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow rounded-lg p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Your Campaigns</h1>
+        <a href="{% url 'portal:campaign_create' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md flex items-center">
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            Create Campaign
+        </a>
+    </div>
+    
+    {% if campaigns %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for campaign in campaigns %}
+                <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                    <div class="p-5">
+                        <div class="flex justify-between">
+                            <h2 class="text-lg font-semibold text-gray-800">{{ campaign.name }}</h2>
+                            <div>
+                                {% if campaign.is_active %}
+                                    <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">Active</span>
+                                {% else %}
+                                    <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">Inactive</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        {% if campaign.description %}
+                            <p class="mt-2 text-gray-600">{{ campaign.description }}</p>
+                        {% endif %}
+                        
+                        <div class="mt-4 grid grid-cols-3 gap-4">
+                            <div class="text-center">
+                                <div class="text-xl font-bold text-blue-600">{{ campaign.total_responses }}</div>
+                                <div class="text-xs text-gray-500">Responses</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-xl font-bold text-green-600">{{ campaign.google_reviews_count }}</div>
+                                <div class="text-xs text-gray-500">Google Reviews</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-xl font-bold text-purple-600">{{ campaign.surveys.count }}</div>
+                                <div class="text-xs text-gray-500">Surveys</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="px-5 py-3 bg-gray-50 border-t border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <div class="text-sm text-gray-500">
+                                <span>Created: {{ campaign.created_at|date:"M d, Y" }}</span>
+                            </div>
+                            <div class="flex space-x-2">
+                                <a href="{% url 'portal:campaign_detail' pk=campaign.id %}" class="text-blue-600 hover:text-blue-900 text-sm">
+                                    View Details
+                                </a>
+                                <span class="text-gray-300">|</span>
+                                <a href="{% url 'portal:campaign_update' pk=campaign.id %}" class="text-indigo-600 hover:text-indigo-900 text-sm">
+                                    Edit
+                                </a>
+                                <span class="text-gray-300">|</span>
+                                <a href="{% url 'portal:campaign_delete' pk=campaign.id %}" class="text-red-600 hover:text-red-900 text-sm">
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="bg-gray-50 p-6 text-center rounded-lg border border-gray-200">
+            <div class="mb-4">
+                <svg class="h-12 w-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                </svg>
+                <p class="text-gray-500">You haven't created any campaigns yet.</p>
+            </div>
+            <a href="{% url 'portal:campaign_create' %}" class="inline-flex items-center text-blue-600 hover:text-blue-900">
+                Create your first campaign
+                <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
+    {% endif %}
+    
+    <div class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <h2 class="text-lg font-medium text-blue-800 mb-2">About Campaigns</h2>
+        <p class="text-blue-600 mb-3">
+            Campaigns help you organize your surveys, promotions, and review collection into cohesive marketing efforts.
+        </p>
+        <ul class="text-blue-600 space-y-1 list-disc list-inside">
+            <li>Each campaign can have multiple surveys and promotions</li>
+            <li>Set review thresholds to control when customers are prompted for Google reviews</li>
+            <li>Track campaign performance with dedicated analytics</li>
+            <li>Create different campaigns for different locations or services</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

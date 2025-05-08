@@ -6,6 +6,13 @@ app_name = 'portal'
 
 urlpatterns = [
     path('', views.client_dashboard, name='dashboard'),
+        
+    # Campaign management
+    path('campaigns/', views.manage_campaigns, name='manage_campaigns'),
+    path('campaigns/create/', views.CampaignCreateView.as_view(), name='campaign_create'),
+    path('campaigns/<int:pk>/', views.campaign_detail, name='campaign_detail'),
+    path('campaigns/<int:pk>/edit/', views.CampaignUpdateView.as_view(), name='campaign_update'),
+    path('campaigns/<int:pk>/delete/', views.CampaignDeleteView.as_view(), name='campaign_delete'),
     
     # Survey management
     path('surveys/', views.manage_surveys, name='manage_surveys'),

@@ -1,0 +1,157 @@
+{# templates/portal/campaign_detail.html #}
+{% extends 'base.html' %}
+
+{% block title %}{{ campaign.name }} | Campaigns | {{ business.name }} | Review Return{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow rounded-lg p-6">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800">{{ campaign.name }}</h1>
+            {% if campaign.description %}
+                <p class="text-gray-600">{{ campaign.description }}</p>
+            {% endif %}
+        </div>
+        <div class="flex space-x-3">
+            <a href="{% url 'portal:campaign_update' pk=campaign.id %}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md">Edit</a>
+            <a href="{% url 'portal:business_qr_code' %}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md flex items-center">
+                <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"></path>
+                </svg>
+                QR Code
+            </a>
+        </div>
+    </div>
+    
+    <!-- Campaign Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-blue-50 p-6 rounded-lg shadow">
+            <h3 class="text-lg font-medium text-gray-800 mb-2">Total Responses</h3>
+            <p class="text-3xl font-bold text-blue-600">{{ total_responses }}</p>
+        </div>
+        <div class="bg-green-50 p-6 rounded-lg shadow">
+            <h3 class="text-lg font-medium text-gray-800 mb-2">Google Reviews</h3>
+            <p class="text-3xl font-bold text-green-600">{{ google_reviews }}</p>
+            <p class="text-sm text-gray-500 mt-2">Review threshold: {{ campaign.review_threshold }} stars</p>
+        </div>
+        <div class="bg-purple-50 p-6 rounded-lg shadow">
+            <h3 class="text-lg font-medium text-gray-800 mb-2">Average Rating</h3>
+            <p class="text-3xl font-bold text-purple-600">{{ avg_rating }} / 5</p>
+        </div>
+    </div>
+    
+    <!-- Surveys in this Campaign -->
+    <div class="mb-8">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-gray-800">Surveys</h2>
+            <a href="{% url 'portal:survey_create' %}?campaign={{ campaign.id }}" class="text-blue-600 hover:text-blue-900 flex items-center">
+                <svg class="h-5 w-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Add Survey
+            </a>
+        </div>
+        
+        {% if surveys %}
+            <div class="bg-white overflow-x-auto border border-gray-200 rounded-lg">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Questions</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Responses</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for survey in surveys %}
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ survey.title }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {% if survey.is_active %}
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                    {% else %}
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Inactive</span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ survey.questions.count }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ survey.responses.count }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="{% url 'portal:survey_questions' survey_id=survey.id %}" class="text-blue-600 hover:text-blue-900 mr-3">Edit Questions</a>
+                                    <a href="{% url 'portal:survey_update' pk=survey.id %}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="bg-gray-50 p-6 text-center rounded-lg border border-gray-200">
+                <p class="text-gray-500">No surveys added to this campaign yet.</p>
+                <a href="{% url 'portal:survey_create' %}?campaign={{ campaign.id }}" class="mt-2 inline-flex items-center text-blue-600 hover:text-blue-900">
+                    Add your first survey
+                    <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Promotions in this Campaign -->
+    <div>
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold text-gray-800">Promotions</h2>
+            <a href="{% url 'portal:promotion_create' %}?campaign={{ campaign.id }}" class="text-blue-600 hover:text-blue-900 flex items-center">
+                <svg class="h-5 w-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Add Promotion
+            </a>
+        </div>
+        
+        {% if promotions %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {% for promotion in promotions %}
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start">
+                                <h3 class="font-medium text-gray-800">{{ promotion.title }}</h3>
+                                <div>
+                                    {% if promotion.is_active %}
+                                        <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">Active</span>
+                                    {% else %}
+                                        <span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800">Inactive</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <p class="mt-1 text-sm text-gray-600">{{ promotion.description }}</p>
+                            <div class="mt-2 text-sm text-gray-500">
+                                <div>Discount: {{ promotion.discount_value }}</div>
+                                <div>Min Rating: {{ promotion.min_rating_required }}</div>
+                                {% if promotion.valid_until %}
+                                    <div>Valid until: {{ promotion.valid_until|date:"M d, Y" }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="px-4 py-2 bg-gray-50 border-t border-gray-200 text-right">
+                            <a href="{% url 'portal:promotion_update' pk=promotion.id %}" class="text-indigo-600 hover:text-indigo-900 text-sm">Edit</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="bg-gray-50 p-6 text-center rounded-lg border border-gray-200">
+                <p class="text-gray-500">No promotions added to this campaign yet.</p>
+                <a href="{% url 'portal:promotion_create' %}?campaign={{ campaign.id }}" class="mt-2 inline-flex items-center text-blue-600 hover:text-blue-900">
+                    Add your first promotion
+                    <svg class="h-4 w-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

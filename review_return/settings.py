@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'portal',
     'survey',
     'accounts',
+    'marketing',
 ]
 
 MIDDLEWARE = [

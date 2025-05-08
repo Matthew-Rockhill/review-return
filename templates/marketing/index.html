@@ -1,0 +1,211 @@
+{% extends 'marketing/base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="py-20 bg-neutral">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl sm:text-5xl font-bold text-secondary mb-6">Supercharge Your Customer Feedback & Google Reviews</h1>
+            <p class="text-lg sm:text-xl text-gray-600 mb-8">The all-in-one platform that helps local businesses collect feedback, boost online reviews, and convert one-time customers into loyal fans.</p>
+            <div class="flex justify-center space-x-4">
+                <a href="#" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">Get Started Free</a>
+                <a href="#" class="border border-primary text-primary px-6 py-3 rounded-lg font-semibold hover:bg-blue-50">Book a Demo</a>
+            </div>
+            <div class="mt-12">
+                <img src="{% static 'images/dashboard-screenshot.png' %}" alt="Dashboard Screenshot" class="max-w-full mx-auto rounded-lg shadow-md">
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Statement Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold text-secondary text-center mb-12">Are You Facing These Challenges?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <ul class="space-y-4 text-lg text-gray-600">
+                        <li class="flex items-start">
+                            <svg class="h-6 w-6 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            Not enough Google reviews to stand out from competitors
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="h-6 w-6 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            No system to collect actionable customer feedback
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="h-6 w-6 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            Difficulty turning one-time customers into repeat business
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="h-6 w-6 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6'y-16 bg-neutral">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold text-secondary text-center mb-12">Review Return: The Complete Customer Feedback Solution</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <h3 class="text-xl font-semibold text-secondary mb-4">Collect Valuable Feedback</h3>
+                    <p class="text-gray-600">Custom surveys designed specifically for your business needs.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <h3 class="text-xl font-semibold text-secondary mb-4">Boost Google Reviews</h3>
+                    <p class="text-gray-600">Automatically route happy customers to leave reviews where they matter most.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <h3 class="text-xl font-semibold text-secondary mb-4">Increase Customer Retention</h3>
+                    <p class="text-gray-600">Send targeted promotions based on feedback to encourage repeat business.</p>
+                </div>
+            </div>
+            <div class="mt-12 text-center">
+                <img src="{% static 'images/process-diagram.png' %}" alt="3-Step Process" class="max-w-full mx-auto">
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold text-secondary text-center mb-12">Simple, Effective, and Automated</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">1</div>
+                    <h3 class="text-xl font-semibold text-secondary mb-2">Create Your Campaign</h3>
+                    <p class="text-gray-600">Set up your survey, review threshold, and promotions in minutes.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">2</div>
+                    <h3 class="text-xl font-semibold text-secondary mb-2">Share Your QR Code</h3>
+                    <p class="text-gray-600">Place it where customers will see it - at checkout, on receipts, or in your location.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">3</div>
+                    <h3 class="text-xl font-semibold text-secondary mb-2">Automatic Follow-Up</h3>
+                    <p class="text-gray-600">Satisfied customers are prompted to leave Google reviews while everyone receives your promotion.</p>
+                </div>
+            </div>
+            <div class="mt-12 text-center">
+                <img src="{% static 'images/qr-code-mockup.png' %}" alt="QR Code Mockup" class="max-w-full mx-auto rounded-lg shadow-md">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Showcase Section -->
+    <section class="py-16 bg-neutral">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl sm:text-4xl font-bold text-secondary text-center mb-12">Everything You Need in One Platform</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-secondary mb-2">Custom Surveys</h3>
+                    <p class="text-gray-600">Create targeted questions using ratings, multiple choice, or open-ended formats.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-secondary mb-2">Campaign Management</h3>
+                    <p class="text-gray-600">Organize your feedback collection for different locations, services, or products.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-secondary mb-2">Google Review Integration</h3>
+                    <p class="text-gray-600">Direct happy customers straight to your Google Business Profile.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-secondary mb-2">Smart Promotions</h3>
+                    <p class="text-gray-600">Create custom offers that bring customers back.</p>
+六、Pricing Table Section
+<section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl sm:text-4xl font-bold text-secondary text-center mb-12">Simple, Transparent Pricing</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Free Plan -->
+            <div class="bg-neutral p-6 rounded-lg shadow-md text-center">
+                <h3 class="text-2xl font-semibold text-secondary mb-4">Free</h3>
+                <p class="text-4xl font-bold text-secondary mb-4">R0<span class="text-lg font-normal">/month</span></p>
+                <ul class="text-gray-600 mb-6 space-y-2">
+                    <li>1 Campaign</li>
+                    <li>1 Survey per campaign</li>
+                    <li>Basic analytics</li>
+                    <li>QR code generation</li>
+                </ul>
+                <a href="#" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">Choose Plan</a>
+            </div>
+            <!-- Basic Plan -->
+            <div class="bg-neutral p-6 rounded-lg shadow-md text-center border-2 border-primary">
+                <h3 class="text-2xl font-semibold text-secondary mb-4">Basic</h3>
+                <p class="text-4xl font-bold text-secondary mb-4">R149<span class="text-lg font-normal">/month</span></p>
+                <ul class="text-gray-600 mb-6 space-y-2">
+                    <li>3 Campaigns</li>
+                    <li>3 Surveys per campaign</li>
+                    <li>Advanced analytics</li>
+                    <li>Custom QR codes</li>
+                    <li>Priority support</li>
+                </ul>
+                <a href="#" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">Choose Plan</a>
+            </div>
+            <!-- Premium Plan -->
+            <div class="bg-neutral p-6 rounded-lg shadow-md text-center">
+                <h3 class="text-2xl font-semibold text-secondary mb-4">Premium</h3>
+                <p class="text-4xl font-bold text-secondary mb-4">R299<span class="text-lg font-normal">/month</span></p>
+                <ul class="text-gray-600 mb-6 space-y-2">
+                    <li>Unlimited Campaigns</li>
+                    <li>Unlimited Surveys</li>
+                    <li>Comprehensive analytics</li>
+                    <li>Branded QR codes</li>
+                    <li>Export data as CSV/Excel</li>
+                    <li>Advanced promotion options</li>
+                </ul>
+                <a href="#" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">Choose Plan</a>
+            </div>
+        </div>
+        <p class="text-center text-gray-600 mt-8">All plans include unlimited responses</p>
+    </div>
+</section>
+
+<!-- FAQs Section -->
+<section class="py-16 bg-neutral">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl sm:text-4xl font-bold text-secondary text-center mb-12">Frequently Asked Questions</h2>
+        <div class="space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-secondary mb-2">How long does it take to set up a campaign?</h3>
+                <p class="text-gray-600">You can set up a campaign in just a few minutes using our intuitive dashboard.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-secondary mb-2">Can I customize the survey questions?</h3>
+                <p class="text-gray-600">Yes, you can create targeted questions using ratings, multiple choice, or open-ended formats.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-secondary mb-2">How does the Google review process work?</h3>
+                <p class="text-gray-600">Happy customers are automatically directed to your Google Business Profile to leave a review.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-secondary mb-2">What types of promotions can I create?</h3>
+                <p class="text-gray-600">You can create custom offers like discounts or loyalty rewards to encourage repeat business.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-secondary mb-2">Do I need technical skills to use Review Return?</h3>
+                <p class="text-gray-600">No, our platform is designed to be user-friendly with no technical skills required.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-secondary mb-2">Can I use Review Return for multiple locations?</h3>
+                <p class="text-gray-600">Yes, you can manage campaigns for multiple locations with our campaign management feature.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Final CTA Section -->
+<section class="py-20 bg-primary text-white text-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-6">Ready to Transform Your Customer Feedback?</h2>
+        <p class="text-lg sm:text-xl mb-8">Join thousands of businesses already using Review Return to collect feedback, boost Google reviews, and increase customer retention.</p>
+        <div class="flex justify-center space-x-4">
+            <a href="#" class="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-gray-100">Start Free Trial</a>
+            <a href="#" class="border border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary">Schedule Demo</a>
+        </div>
+        <p class="mt-6 text-sm">No credit card required. Free plan available.</p>
+    </div>
+</section>
+{% endblock %}

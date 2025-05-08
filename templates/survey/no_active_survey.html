@@ -1,0 +1,31 @@
+{# templates/survey/no_active_survey.html #}
+{% extends 'base.html' %}
+
+{% block title %}No Active Survey | {{ business.name }} | Review Return{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto bg-white shadow rounded-lg p-6 text-center">
+    <div class="mb-6">
+        {% if business.logo %}
+            <img src="{{ business.logo.url }}" alt="{{ business.name }}" class="h-16 mx-auto mb-4">
+        {% endif %}
+        <h1 class="text-2xl font-bold text-gray-800">{{ business.name }}</h1>
+    </div>
+    
+    <div class="mb-8">
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-yellow-800 mb-2">No Active Survey Available</h2>
+            
+            {% if campaign %}
+                <p class="text-yellow-600 mb-4">There are no active surveys for this campaign at the moment.</p>
+            {% else %}
+                <p class="text-yellow-600 mb-4">There are no active surveys at the moment. Please check back later.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <a href="#" onclick="window.history.back(); return false;" class="text-blue-600 hover:text-blue-800">
+        &larr; Go back
+    </a>
+</div>
+{% endblock %}

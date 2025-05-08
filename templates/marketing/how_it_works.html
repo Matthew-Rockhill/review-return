@@ -1,0 +1,137 @@
+{% extends "marketing/base.html" %}
+
+{% block title %}How It Works | Review Return{% endblock %}
+{% block meta_description %}Learn how Review Return co...and helps you turn happy customers into loyal repeat business.{% endblock %}
+
+{% block content %}
+    <!-- Header/Nav -->
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <a href="{% url 'marketing:landing_page' %}" class="text-primary-600 font-bold text-2xl">Review Return</a>
+                    </div>
+                    <nav class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="{% url 'marketing:landing_page' %}" class="border-transparent text-slate-700 hover:text-slate-800 px-1 pt-1 inline-flex items-center text-sm font-medium">Home</a>
+                        <a href="{% url 'marketing:how_it_works' %}" class="border-b-2 border-primary-500 text-primary-600 px-1 pt-1 inline-flex items-center text-sm font-medium">How It Works</a>
+                        <a href="#" class="border-transparent text-slate-700 hover:text-slate-800 px-1 pt-1 inline-flex items-center text-sm font-medium">Pricing</a>
+                        <a href="#" class="border-transparent text-slate-700 hover:text-slate-800 px-1 pt-1 inline-flex items-center text-sm font-medium">Contact</a>
+                    </nav>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                    <a href="#" class="text-sm font-medium text-slate-700 hover:text-slate-900">Log in</a>
+                    <a href="#" class="ml-4 bg-primary-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary-700">Sign up</a>
+                </div>
+                <div class="-mr-2 flex items-center sm:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <div class="gradient-bg text-white py-24 text-center">
+        <h1 class="text-5xl font-extrabold mb-4">How Review Return Works</h1>
+        <p class="text-xl max-w-2xl mx-auto">A simple, 3-step process to gather feedback, skyrocket reviews, and create loyal customers.</p>
+    </div>
+
+    <!-- 3-Step Process -->
+    <section class="py-20 bg-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-12 md:grid-cols-3 text-center">
+            <!-- Step 1 -->
+            <div>
+                <div class="h-16 w-16 mx-auto mb-4 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center font-bold text-2xl">1</div>
+                <h3 class="text-xl font-semibold mb-2">Collect Feedback</h3>
+                <p class="text-slate-600">Automatically send quick surveys after each sale or service.</p>
+            </div>
+            <!-- Step 2 -->
+            <div>
+                <div class="h-16 w-16 mx-auto mb-4 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center font-bold text-2xl">2</div>
+                <h3 class="text-xl font-semibold mb-2">Boost Reviews</h3>
+                <p class="text-slate-600">Invite satisfied customers to leave Google reviews with one click.</p>
+            </div>
+            <!-- Step 3 -->
+            <div>
+                <div class="h-16 w-16 mx-auto mb-4 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center font-bold text-2xl">3</div>
+                <h3 class="text-xl font-semibold mb-2">Drive Loyalty</h3>
+                <p class="text-slate-600">Reward happy customers with custom promotions to keep them coming back.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-8">Frequently Asked Questions</h2>
+            <dl class="space-y-6">
+                <div>
+                    <dt class="font-medium">How do I connect my Google Business Profile?</dt>
+                    <dd class="mt-2 text-slate-600">Just click "Connect" in your dashboard, sign in, and authorize—no technical hoops.</dd>
+                </div>
+                <div>
+                    <dt class="font-medium">Can I customize the survey questions?</dt>
+                    <dd class="mt-2 text-slate-600">Yes! Use our survey builder to add, remove, or reorder questions however you like.</dd>
+                </div>
+                <div>
+                    <dt class="font-medium">What if I exceed my response limit?</dt>
+                    <dd class="mt-2 text-slate-600">You’ll be prompted to upgrade your plan—no service interruption.</dd>
+                </div>
+            </dl>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-20 bg-primary-600 text-white text-center">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold mb-4">Ready to Transform Your Feedback into Growth?</h2>
+            <a href="#" class="inline-block bg-white text-primary-700 py-4 px-8 rounded-lg font-semibold hover:bg-slate-100">Get Started Free</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Product</h3>
+                <ul class="space-y-3">
+                    <li><a href="#" class="hover:text-white">Features</a></li>
+                    <li><a href="#" class="hover:text-white">Integrations</a></li>
+                    <li><a href="#" class="hover:text-white">API</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Company</h3>
+                <ul class="space-y-3">
+                    <li><a href="#" class="hover:text-white">About Us</a></li>
+                    <li><a href="#" class="hover:text-white">Blog</a></li>
+                    <li><a href="#" class="hover:text-white">Careers</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Support</h3>
+                <ul class="space-y-3">
+                    <li><a href="#" class="hover:text-white">Help Center</a></li>
+                    <li><a href="#" class="hover:text-white">Contact Support</a></li>
+                    <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-white" aria-label="Twitter"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><!-- … --></svg></a>
+                    <a href="#" class="hover:text-white" aria-label="LinkedIn"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><!-- … --></svg></a>
+                    <a href="#" class="hover:text-white" aria-label="Instagram"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><!-- … --></svg></a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-12 pt-8 border-t border-slate-700">
+            <p class="text-slate-400 text-center">&copy; 2025 Review Return. All rights reserved.</p>
+        </div>
+    </footer>
+{% endblock %}

@@ -3,10 +3,45 @@ from django.db import models
 from django.utils import timezone
 from accounts.models import Business
 
+class Campaign(models.Model):
+    """Campaign model for organizing surveys, promotions, and review criteria"""
+    business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='campaigns')
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    
+    # Review prompt threshold - the minimum rating to prompt for a Google review
+    review_threshold = models.FloatField(default=4.0,
+        help_text="Minimum average rating to prompt for a Google review")
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"{self.business.name} - {self.name}"
+        
+    @property
+    def total_responses(self):
+        """Get total responses across all surveys in this campaign"""
+        count = 0
+        for survey in self.surveys.all():
+            count += survey.responses.count()
+        return count
+        
+    @property
+    def google_reviews_count(self):
+        """Get count of Google reviews from this campaign"""
+        from survey.models import CustomerResponse
+        return CustomerResponse.objects.filter(
+            survey__campaign=self,
+            left_google_review=True
+        ).count()
+
 
 class Survey(models.Model):
     """Survey model for storing questions created by businesses"""
     business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='surveys')
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, related_name='surveys', null=True)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
@@ -58,6 +93,7 @@ class Choice(models.Model):
 class Promotion(models.Model):
     """Promotional offers created by businesses"""
     business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='promotions')
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, related_name='promotions', null=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
     discount_value = models.CharField(max_length=50)  # Could be percentage or fixed amount
@@ -80,5 +116,4 @@ class Promotion(models.Model):
         if self.valid_until and now > self.valid_until:
             return False
         return now >= self.valid_from
-
 
